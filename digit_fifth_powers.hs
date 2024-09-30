@@ -42,3 +42,27 @@ digitFifthPowers2 a
 -- List comprehension with guards
 findSum2 :: Integral a => a
 findSum2 = sum [x| x <- [2..354294], digitFifthPowers2 x]                    
+--------------------------------------------------------
+
+-- Using first class function.
+unfold::(a->Bool)->(a->b)->(a->a)->a->[b]
+unfold p h t x | p x = []
+               | otherwise = h x : unfold p h t (t x)
+
+splitInt3:: Integral a => a-> [a]
+splitInt3 a = unfold (\x -> x == 0) (\x-> x `mod` 10) (\x-> x `div` 10) a
+
+
+-- Using first class function foldr with lamba
+sumAll3 :: Integral a =>[a] -> a
+sumAll3  xs =  foldr (\x y -> x^5 + y) 0 xs
+
+-- Function with guards
+digitFifthPowers3 :: Integral a => a -> Bool
+digitFifthPowers3 a 
+                    |a == (sumAll3 $ splitInt3 a) = True
+                    | otherwise = False  
+
+
+findSum3 :: Integral a => a
+findSum3 = sum [x| x <- [2..354294], digitFifthPowers3 x]
