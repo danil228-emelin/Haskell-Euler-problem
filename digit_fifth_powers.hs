@@ -14,7 +14,7 @@ digitFifthPowers a = if a == (sumAll $ splitInt a) then True else False
 
 -- List comprehension with guards
 findSum :: Integral a => a
-findSum = sum [x| x <- [2..354294], digitFifthPowers x]
+findSum = sum [x| x <- [100..354294], digitFifthPowers x]
 --------------------------------------------------------
 
 -- Tail recursion with pattern matching
@@ -41,7 +41,7 @@ digitFifthPowers2 a
 
 -- List comprehension with guards
 findSum2 :: Integral a => a
-findSum2 = sum [x| x <- [2..354294], digitFifthPowers2 x]                    
+findSum2 = sum [x| x <- [100..354294], digitFifthPowers2 x]                    
 --------------------------------------------------------
 
 -- Using first class function.
@@ -65,4 +65,22 @@ digitFifthPowers3 a
 
 
 findSum3 :: Integral a => a
-findSum3 = sum [x| x <- [2..354294], digitFifthPowers3 x]
+findSum3 = sum [x| x <- [100..354294], digitFifthPowers3 x]
+--------------------------------------------------------
+
+-- Use standart Prelude list functions
+
+listNewElem ::Integral a => a->(a,[a])
+listNewElem a = (a,splitInt3 a)
+
+splitInt4 :: Integral a => [a]->[(a,[a])]
+splitInt4 xs = map listNewElem xs
+
+digitFifthPower2 :: Integral a =>(a,[a]) -> Bool
+digitFifthPower2 (a,xs) = if a == sumAll3 xs then True else False
+
+sum_custom ::  Integral a =>[(a,[a])]-> a
+sum_custom [] = 0
+sum_custom ((a,ys):xs) =a + sum_custom xs
+findSum4  :: Integral a =>a
+findSum4  = sum_custom $ filter digitFifthPower2 (splitInt4 [100..354294])
