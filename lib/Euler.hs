@@ -1,3 +1,5 @@
+module Euler where
+
 -- Recursion with pattern matching
 splitInt :: (Integral a) => a -> [a]
 splitInt 0 = []
@@ -88,3 +90,4 @@ sum_custom ((Number a ys ) : xs) = a + sum_custom xs
 
 findSum4 :: (Integral a) => a
 findSum4 = sum_custom $ filter digitFifthPower2 (splitInt4 [100 .. 354294])
+
